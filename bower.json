@@ -2,5 +2,8 @@
   "name": "ionic-table",
   "version": "0.0.1",
   "main": "ionic-table.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "~2.1.4"
+  }
 }
