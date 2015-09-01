@@ -4,7 +4,7 @@ Ionic directives (ion-list, ion-item) styled to mimick normal HTML tables for re
 
 ## Codepen Demo
 
-[http://codepen.io/anon/pen/QjWxqG]
+http://codepen.io/anon/pen/QjWxqG
 
 # Installation
 
