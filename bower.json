@@ -1,0 +1,9 @@
+{
+  "name": "ionic-table",
+  "version": "0.0.1",
+  "main": [
+    "ionic-table.js",
+    "ionic-table.css"
+  ],
+  "license": "MIT",
+}
