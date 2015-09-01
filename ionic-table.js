@@ -7,6 +7,8 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
     transclude: true,
     link: function (scope, element, attr) {
 
+      addStyles();
+
       var existing = window.onresize;
 
       window.onresize = function () {
@@ -146,6 +148,63 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
           }
         }
 
+      }
+
+      function addStyles() {
+        $('<style type="text/css">.item-select,.table-select{position:' +
+          'relative}.item-select select,.table-select select{-webkit-' +
+          'appearance:none;appearance:none;position:absolute;top:0;bottom:0;' +
+          'right:0;padding:0 48px 0 16px;max-width:65%;border:none;' +
+          'background:#fff;color:#333;text-indent:.01px;text-overflow:"";' +
+          'white-space:nowrap;font-size:14px;cursor:pointer;direction:rtl}' +
+          '.item-select select::-ms-expand,.table-select select::-ms-expand' +
+          '{display:none}.item-select option,.table-select option{direction:' +
+          'ltr}.item-select:after,.table-select:after{position:absolute;top:' +
+          '50%;right:16px;margin-top:-3px;width:0;height:0;border-top:5px ' +
+          'solid;border-right:5px solid transparent;border-left:5px solid ' +
+          'transparent;color:#999;content:"";pointer-events:none}.item-light.' +
+          'table-select select,.item-select.item-light select{background:' +
+          '#fff;color:#444}.item-select.item-stable select,.item-stable.' +
+          'table-select select{background:#f8f8f8;color:#444}.item-select' +
+          '.item-stable .input-label,.item-select.item-stable:after,.item-' +
+          'stable.table-select .input-label,.item-stable.table-select:after' +
+          '{color:#656565}.item-positive.table-select select,.item-select' +
+          '.item-positive select{background:#387ef5;color:#fff}.item-positive' +
+          '.table-select .input-label,.item-positive.table-select:after,' +
+          '.item-select.item-positive .input-label,.item-select.item-positive' +
+          ':after{color:#fff}.item-calm.table-select select,.item-select' +
+          '.item-calm select{background:#11c1f3;color:#fff}.item-calm' +
+          '.table-select .input-label,.item-calm.table-select:after,' +
+          '.item-select.item-calm .input-label,.item-select.item-calm:after' +
+          '{color:#fff}.item-assertive.table-select select,.item-select.item-' +
+          'assertive select{background:#ef473a;color:#fff}.item-assertive' +
+          '.table-select .input-label,.item-assertive.table-select:after,' +
+          '.item-select.item-assertive .input-label,.item-select' +
+          '.item-assertive:after{color:#fff}.item-balanced.table-select ' +
+          'select,.item-select.item-balanced select{background:#33cd5f;' +
+          'color:#fff}.item-balanced.table-select .input-label,.item-' +
+          'balanced.table-select:after,.item-select.item-balanced ' +
+          '.input-label,.item-select.item-balanced:after{color:#fff}.item-' +
+          'energized.table-select select,.item-select.item-energized select' +
+          '{background:#ffc900;color:#fff}.item-energized.table-select ' +
+          '.input-label,.item-energized.table-select:after,.item-select' +
+          '.item-energized .input-label,.item-select.item-energized:after' +
+          '{color:#fff}.item-royal.table-select select,.item-select' +
+          '.item-royal select{background:#886aea;color:#fff}.item-royal' +
+          '.table-select .input-label,.item-royal.table-select:after,' +
+          '.item-select.item-royal .input-label,.item-select.item-royal:' +
+          'after{color:#fff}.item-dark.table-select select,.item-select' +
+          '.item-dark select{background:#444;color:#fff}.item-dark' +
+          '.table-select .input-label,.item-dark.table-select:after,' +
+          '.item-select.item-dark .input-label,.item-select.item-dark:after' +
+          '{color:#fff}.table *{font-size:14px}.table .table-row:first-child' +
+          '{margin-top:-2px}.table .table-head{background:#ddd;text-align:' +
+          'center;color:#000}.table ul{display:-webkit-box;display:flex}' +
+          '.table ul li{display:inline-block;padding:16px;max-width:75%;' +
+          'white-space:normal}.table li:not(:last-child){border-right:1px ' +
+          'solid #ddd}.table-row{padding:0}.table-select{overflow:hidden}' +
+          '.table-select select{max-width:none;padding-right:35px}</style>')
+        .appendTo('head');
       }
 
     }
