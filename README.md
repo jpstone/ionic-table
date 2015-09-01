@@ -1,3 +1,11 @@
+# Introduction
+
+Ionic directives (ion-list, ion-item) styled to mimick normal HTML tables for responsiveness and provide animation functionality.
+
+## Codepen Demo
+
+[http://codepen.io/anon/pen/QjWxqG]
+
 # Installation
 
 bower install ionic-table
