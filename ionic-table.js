@@ -1,4 +1,4 @@
-var ionicTableModule = angular.module('ionic-table', ['ionic']);
+var ionicTableModule = angular.module('ionic-table', []);
 
 ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
   return {
