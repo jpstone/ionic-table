@@ -200,7 +200,7 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
           '{color:#fff}.table *{font-size:14px}.table .table-row:first-child' +
           '{margin-top:-2px}.table .table-head{background:#ddd;text-align:' +
           'center;color:#000}.table ul{display:-webkit-box;display:flex}' +
-          '.table ul li{display:inline-block;padding:16px;max-width:75%;' +
+          '.table ul li{display:inline-block;padding:16px;' +
           'white-space:normal}.table li:not(:last-child){border-right:1px ' +
           'solid #ddd}.table-row{padding:0}.table-select{overflow:hidden}' +
           '.table-select select{max-width:none;padding-right:35px}</style>')
