@@ -50,10 +50,13 @@ ionicTableModule.config(function () {
     '{color:#fff}.table *{font-size:14px}.table .table-row:first-child' +
     '{margin-top:-2px}.table .table-head{background:#ddd;text-align:' +
     'center;color:#000}.table ul{display:-webkit-box;display:flex}' +
-    '.table ul li{display:inline-block;padding:16px;' +
+    '.table ul li{display:inline-block;padding:16px;max-width:65%;' +
     'white-space:normal}.table li:not(:last-child){border-right:1px ' +
     'solid #ddd}.table-row{padding:0}.table-select{overflow:hidden}' +
-    '.table-select select{max-width:none;padding-right:35px}</style>')
+    '.table-select select{max-width:none;padding-right:35px}' +
+    '.table-descriptor li{border-right:none}.icon-only{position:relative;' +
+    'text-align:center}.icon-only i{font-size:32px;width:100%;position:absolute;' +
+    'top:calc(50%-14px);left:0}</style>')
   .appendTo('head');
 });
 
