@@ -54,7 +54,7 @@ ionicTableModule.config(function () {
     'white-space:normal}.table li:not(:last-child){border-right:1px ' +
     'solid #ddd}.table-row{padding:0}.table-select{overflow:hidden}' +
     '.table-select select{max-width:none;padding-right:35px}' +
-    '.table-descriptor li{border-right:none !important}.icon-only{position:relative;' +
+    '.icon-only{position:relative;' +
     'text-align:center}.icon-only i{font-size:32px;width:100%;position:absolute;' +
     'top:calc(50% - 14px);left:0}</style>')
   .appendTo('head');
@@ -186,14 +186,19 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
 
         for (widthToUse in widthsToUse) {
           for (row in rows) {
-            if (parseInt(widthToUse) !== widthsToUse.length - 1) {
-              rows[row][widthToUse].animate({width: widthsToUse[widthToUse] + 'px'}, 275);
-            } else {
-              if (windowDifference > 0 && windowDifference > widthsToUse[widthToUse]) {
-                rows[row][widthToUse].animate({width: windowDifference + 'px'}, 275);
-              } else {                
+            if (rows[row].length > 1) {
+              if (parseInt(widthToUse) !== widthsToUse.length - 1) {
                 rows[row][widthToUse].animate({width: widthsToUse[widthToUse] + 'px'}, 275);
+              } else {
+                if (windowDifference > 0 && windowDifference > widthsToUse[widthToUse]) {
+                  rows[row][widthToUse].animate({width: windowDifference + 'px'}, 275);
+                } else {                
+                  rows[row][widthToUse].animate({width: widthsToUse[widthToUse] + 'px'}, 275);
+                }
               }
+            } else {
+              rows[row][0].css('max-width', 'none');
+              rows[row][0].animate({width: window.innerWidth + 'px'}, 275);
             }
           }
         }

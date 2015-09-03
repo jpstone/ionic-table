@@ -81,10 +81,6 @@ Specifies the table header (default background is gray and text is black/centere
 
 Extends ionic's `select` styles for use in a table. To be placed on the individual `li` table cell.
 
-## `.table-descriptor`
-
-Removes the borders of all cells in a row. Useful for having a description sub-header in a single table. To be placed on the table row's `ul` element.
-
 ## `.icon-only`
 
 Centers an icon vertically and horizontally for ng-click functionality. To be placed on an individual `li` table cell, inside which is an `i.icon.icon-whatever`.
