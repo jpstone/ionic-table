@@ -55,7 +55,7 @@ ionicTableModule.config(function () {
     'solid #ddd}.table-row{padding:0}.table-select{overflow:hidden}' +
     '.table-select select{max-width:none;padding-right:35px}' +
     '.icon-only{position:relative;' +
-    'text-align:center}.icon-only i{font-size:32px;width:100%;position:absolute;' +
+    'text-align:center}.icon-only i,.icon-only span{font-size:32px;width:100%;position:absolute;' +
     'top:calc(50% - 14px);left:0}</style>')
   .appendTo('head');
 });
