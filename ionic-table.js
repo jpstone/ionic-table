@@ -109,6 +109,10 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
         resizeWithModal = 0;
         modalShown = false;
       });
+      scope.$on('resizeTable', function () {
+        console.log('hi');
+        onResize();
+      });
 
       $(window).smartresize(function () {
         if (!modalShown) {
