@@ -99,23 +99,19 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
           resizeWithModal = 0;
 
       scope.$on('modal.shown', function () {
-        console.log('modal shown');
         modalShown = true;
       });
       scope.$on('modal.hidden', function () {
-        console.log('modal hidden');
         resizeWithModal = 0;
         modalShown = false;
       });
       scope.$on('modal.removed', function () {
-        console.log('modal removed');
         resizeWithModal = 0;
         modalShown = false;
       });
 
       $(window).smartresize(function () {
         if (!modalShown) {
-          console.log('resizing without modal')
           onResize();
         }
       });
@@ -123,7 +119,6 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
         if (modalShown) {
           resizeWithModal++;
           if (resizeWithModal > 1) {
-            console.log('resizing with modal')
             onResize();
           }
         }
