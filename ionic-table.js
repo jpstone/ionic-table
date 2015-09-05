@@ -54,10 +54,38 @@ ionicTableModule.config(function () {
     'white-space:normal}.table li:not(:last-child){border-right:1px ' +
     'solid #ddd}.table-row{padding:0}.table-select{overflow:hidden}' +
     '.table-select select{max-width:none;padding-right:35px}' +
-    '.icon-only{position:relative;' +
-    'text-align:center}.icon-only i,.icon-only span{font-size:32px;width:100%;position:absolute;' +
+    '.icon-only{position:relative;text-align:center}.icon-only i,' +
+    '.icon-only span{font-size:32px;width:100%;position:absolute;' +
     'top:calc(50% - 14px);left:0}</style>')
   .appendTo('head');
+
+  (function($,sr){
+    // debouncing function from John Hann
+    // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+    var debounce = function (func, threshold, execAsap) {
+        var timeout;
+
+        return function debounced () {
+            var obj = this, args = arguments;
+            function delayed () {
+                if (!execAsap)
+                    func.apply(obj, args);
+                timeout = null;
+            };
+
+            if (timeout)
+                clearTimeout(timeout);
+            else if (execAsap)
+                func.apply(obj, args);
+
+            timeout = setTimeout(delayed, threshold || 100);
+        };
+    }
+    // smartresize 
+    jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
+
+  })(jQuery,'smartresize');
+
 });
 
 ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
@@ -67,16 +95,39 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
     transclude: true,
     link: function (scope, element, attr) {
 
-      var existing = window.onresize;
+      var modalShown,
+          resizeWithModal = 0;
 
-      window.onresize = function () {
-        if (existing) {existing()}
-          $timeout(function(){scope.reset = true;});
-          $timeout(function () {
-            scope.reset = false;
-            $timeout(setCellWidth);
-          }, 100);
-      };
+      scope.$on('modal.shown', function () {
+        console.log('modal shown');
+        modalShown = true;
+      });
+      scope.$on('modal.hidden', function () {
+        console.log('modal hidden');
+        resizeWithModal = 0;
+        modalShown = false;
+      });
+      scope.$on('modal.removed', function () {
+        console.log('modal removed');
+        resizeWithModal = 0;
+        modalShown = false;
+      });
+
+      $(window).smartresize(function () {
+        if (!modalShown) {
+          console.log('resizing without modal')
+          onResize();
+        }
+      });
+      $(window).smartresize(function () {
+        if (modalShown) {
+          resizeWithModal++;
+          if (resizeWithModal > 1) {
+            console.log('resizing with modal')
+            onResize();
+          }
+        }
+      });
 
       $timeout(setCellWidth);
 
@@ -211,6 +262,14 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
           }
         }
 
+      }
+
+      function onResize() {
+        $timeout(function(){scope.reset = true;});
+        $timeout(function () {
+          scope.reset = false;
+          $timeout(setCellWidth);
+        }, 100);
       }
 
     }
