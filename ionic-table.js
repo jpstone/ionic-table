@@ -225,32 +225,23 @@ var ionicTableModule = angular.module('ionic-table', [])
         }
 
         var windowDifference = window.innerWidth - totalCellWidth;
-
-        if (windowDifference < 0) {
-          widthsToUseCopy = angular.copy(widthsToUse);
-          biggestCell = Math.max.apply(Math, widthsToUseCopy);
-          widthsToUseCopy.splice(widthsToUseCopy.indexOf(biggestCell), 1);
-          for (var tempWidths in widthsToUseCopy) {
-            tempCellWidth += widthsToUseCopy[tempWidths];
-          }
-          newCell = window.innerWidth - tempCellWidth;
-          widthsToUseCopy.splice(widthsToUse.indexOf(biggestCell), 0, newCell);
-          angular.copy(widthsToUseCopy, widthsToUse);
-        }
-        
         biggestCell = Math.max.apply(Math, widthsToUse);
+        widthsToUseCopy = angular.copy(widthsToUse);
+        widthsToUseCopy.splice(widthsToUseCopy.indexOf(biggestCell), 1);
+        
+        for (var tempWidth in widthsToUseCopy) {
+          tempCellWidth += widthsToUseCopy[tempWidth];
+        }
+
+        newCell = window.innerWidth - tempCellWidth;
+        widthsToUseCopy.splice(widthsToUse.indexOf(biggestCell), 0, newCell);
+        angular.copy(widthsToUseCopy, widthsToUse);        
 
         for (widthToUse in widthsToUse) {
           for (row in rows) {
             if (rows[row].length > 1) {
-              if (windowDifference > 0 &&
-                parseInt(widthToUse) === widthsToUse.indexOf(biggestCell)) {
-                rows[row][widthsToUse.indexOf(biggestCell)]
-                .animate({width: 0.65 * window.innerWidth + 'px'}, 275);
-              } else {                
-                rows[row][widthToUse]
-                .animate({width: widthsToUse[widthToUse] + 'px'}, 275);
-              }
+              rows[row][widthToUse]
+              .animate({width: widthsToUse[widthToUse] + 'px'}, 275);
             } else {
               rows[row][0].css('max-width', 'none');
               rows[row][0].animate({width: window.innerWidth + 'px'}, 275);
