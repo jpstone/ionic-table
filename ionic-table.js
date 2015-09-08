@@ -156,8 +156,7 @@ var ionicTableModule = angular.module('ionic-table', [])
             tempCellContainer,
             biggestCell,
             newCell,
-            styleAttr,
-            windowDifference;
+            styleAttr;
 
         for (var ul in div.children()) {
           if (!isNaN(parseInt(ul))) {
@@ -217,14 +216,7 @@ var ionicTableModule = angular.module('ionic-table', [])
         for (cellWidth in cellWidths) {
           widthsToUse.push(Math.max.apply(Math, cellWidths[cellWidth].widths));
         }
-
-        for (var widthToUse in widthsToUse) {
-          if (parseInt(widthToUse) !== widthsToUse.length - 1) {
-            totalCellWidth += widthsToUse[widthToUse];
-          }
-        }
-
-        var windowDifference = window.innerWidth - totalCellWidth;
+        
         biggestCell = Math.max.apply(Math, widthsToUse);
         widthsToUseCopy = angular.copy(widthsToUse);
         widthsToUseCopy.splice(widthsToUseCopy.indexOf(biggestCell), 1);
