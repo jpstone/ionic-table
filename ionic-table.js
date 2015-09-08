@@ -1,6 +1,6 @@
 var ionicTableModule = angular.module('ionic-table', [])
 
-ionicTableModule.config(function () {  
+.config(function () {  
   $('<style type="text/css">.item-select,.table-select{position:' +
     'relative}.item-select select,.table-select select{-webkit-' +
     'appearance:none;appearance:none;position:absolute;top:0;bottom:0;' +
@@ -50,7 +50,7 @@ ionicTableModule.config(function () {
     '{color:#fff}.table *{font-size:14px}.table .table-row:first-child' +
     '{margin-top:-2px}.table .table-head{background:#ddd;text-align:' +
     'center;color:#000}.table ul{display:-webkit-box;display:flex}' +
-    '.table ul li{display:inline-block;padding:16px;max-width:65%;' +
+    '.table ul li{display:inline-block;padding:16px;' +
     'white-space:normal}.table li:not(:last-child){border-right:1px ' +
     'solid #ddd}.table-row{padding:0}.table-select{overflow:hidden}' +
     '.table-select select{max-width:none;padding-right:35px}' +
@@ -82,13 +82,14 @@ ionicTableModule.config(function () {
         };
     }
     // smartresize 
-    jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
+    jQuery.fn[sr] = function(fn){  return fn ? this
+      .bind('resize', debounce(fn)) : this.trigger(sr); };
 
   })(jQuery,'smartresize');
 
-});
+})
 
-ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
+.directive('ionTable', ['$timeout', function ($timeout) {
   return {
     restrict: 'A',
     template: '<div class="table" ng-transclude="" ng-if="!reset">',
@@ -110,7 +111,6 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
         modalShown = false;
       });
       scope.$on('resizeTable', function () {
-        console.log('hi');
         onResize();
       });
 
@@ -131,13 +131,13 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
       $timeout(setCellWidth);
 
       function setCellWidth() {
-        var div = angular.element(angular.element(angular.element(element.children()[0]).children()[0]).children()[0]),
+        var div = angular.element(angular.element(angular
+          .element(element.children()[0]).children()[0]).children()[0]),
             selectElements = element.find('select'),
             uls = [],
             cellContainers = [],
             cellWidths = [],
             rows = [],
-            cellWidths,
             widestCell = {
               width: null,
               index: null
@@ -169,13 +169,15 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
           tempCellContainer = uls[ul];
           for (var li in tempCellContainer) {
             if (!isNaN(parseInt(li))) {
-              cellContainers.push(angular.element(tempCellContainer.children()[li]));
+              cellContainers.push(angular.element(tempCellContainer
+                .children()[li]));
             }
           }
         }
 
         for (var cellContainer in cellContainers) {
-          tempCells = angular.element(cellContainers[cellContainer][0]).children();
+          tempCells = angular.element(cellContainers[cellContainer][0])
+          .children();
           ulLength = tempCells.length;
           for (var i = 1; i <= ulLength; i++) {
             singleUl = [];
@@ -201,9 +203,11 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
             for (var cellWidth in cellWidths) {
               if (cellWidths[cellWidth].cellIndex === parseInt(cell)) {
                 if (individualCell.has('select').length > 0) {
-                  cellWidths[cellWidth].widths.push($(individualCell.children('select')).innerWidth());
+                  cellWidths[cellWidth].widths.push($(individualCell
+                    .children('select')).innerWidth());
                 } else {
-                  cellWidths[cellWidth].widths.push(individualCell.innerWidth());
+                  cellWidths[cellWidth].widths.push(individualCell
+                    .innerWidth());
                 }
               }
             }
@@ -233,18 +237,19 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
           widthsToUseCopy.splice(widthsToUse.indexOf(biggestCell), 0, newCell);
           angular.copy(widthsToUseCopy, widthsToUse);
         }
+        
+        biggestCell = Math.max.apply(Math, widthsToUse);
 
         for (widthToUse in widthsToUse) {
           for (row in rows) {
             if (rows[row].length > 1) {
-              if (parseInt(widthToUse) !== widthsToUse.length - 1) {
-                rows[row][widthToUse].animate({width: widthsToUse[widthToUse] + 'px'}, 275);
-              } else {
-                if (windowDifference > 0 && windowDifference > widthsToUse[widthToUse]) {
-                  rows[row][widthToUse].animate({width: windowDifference + 'px'}, 275);
-                } else {                
-                  rows[row][widthToUse].animate({width: widthsToUse[widthToUse] + 'px'}, 275);
-                }
+              if (windowDifference > 0 &&
+                parseInt(widthToUse) === widthsToUse.indexOf(biggestCell)) {
+                rows[row][widthsToUse.indexOf(biggestCell)]
+                .animate({width: 0.65 * window.innerWidth + 'px'}, 275);
+              } else {                
+                rows[row][widthToUse]
+                .animate({width: widthsToUse[widthToUse] + 'px'}, 275);
               }
             } else {
               rows[row][0].css('max-width', 'none');
@@ -257,7 +262,8 @@ ionicTableModule.directive('ionTable', ['$timeout', function ($timeout) {
           if (!isNaN(parseInt(selectElement))) {
             styleAttr = $(selectElements[selectElement]).parent().attr('style');
             styleAttr = parseInt(styleAttr.split(' ')[1].split('p')[0]);
-            $(selectElements[selectElement]).animate({width: styleAttr - 1 + 'px'}, 275);
+            $(selectElements[selectElement])
+            .animate({width: styleAttr - 1 + 'px'}, 275);
           }
         }
 
