@@ -226,7 +226,6 @@ var ionicTableModule = angular.module('ionic-table', [])
         
         for (var widthToUse in widthsToUse) {
           widthOfAllCells += widthsToUse[widthToUse];
-          console.log(widthsToUse[widthToUse], widthOfAllCells)
         }
 
         newCell = biggestCell + window.innerWidth - widthOfAllCells;
