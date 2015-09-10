@@ -1,3 +1,5 @@
+'use strict';
+
 var ionicTableModule = angular.module('ionic-table', [])
 
 .config(function () {  
@@ -144,7 +146,7 @@ var ionicTableModule = angular.module('ionic-table', [])
             },
             widthsToUse = [],
             totalCellWidth = 0,
-            tempCellWidth = 0,
+            widthOfAllCells = 0,
             widthsToUseCopy,
             individualCell,
             individualWidth,
@@ -156,7 +158,8 @@ var ionicTableModule = angular.module('ionic-table', [])
             tempCellContainer,
             biggestCell,
             newCell,
-            styleAttr;
+            styleAttr,
+            windowDifference;
 
         for (var ul in div.children()) {
           if (!isNaN(parseInt(ul))) {
@@ -197,16 +200,18 @@ var ionicTableModule = angular.module('ionic-table', [])
         }
 
         for (var row in rows) {
-          for (var cell in rows[row]) {
-            individualCell = rows[row][cell];
-            for (var cellWidth in cellWidths) {
-              if (cellWidths[cellWidth].cellIndex === parseInt(cell)) {
-                if (individualCell.has('select').length > 0) {
-                  cellWidths[cellWidth].widths.push($(individualCell
-                    .children('select')).innerWidth());
-                } else {
-                  cellWidths[cellWidth].widths.push(individualCell
-                    .innerWidth());
+          if (rows[row].length > 1) {
+            for (var cell in rows[row]) {
+              individualCell = rows[row][cell];
+              for (var cellWidth in cellWidths) {
+                if (cellWidths[cellWidth].cellIndex === parseInt(cell)) {
+                  if (individualCell.has('select').length > 0) {
+                    cellWidths[cellWidth].widths.push($(individualCell
+                      .children('select')).innerWidth());
+                  } else {
+                    cellWidths[cellWidth].widths.push(individualCell
+                      .innerWidth());
+                  }
                 }
               }
             }
@@ -216,18 +221,16 @@ var ionicTableModule = angular.module('ionic-table', [])
         for (cellWidth in cellWidths) {
           widthsToUse.push(Math.max.apply(Math, cellWidths[cellWidth].widths));
         }
-        
+
         biggestCell = Math.max.apply(Math, widthsToUse);
-        widthsToUseCopy = angular.copy(widthsToUse);
-        widthsToUseCopy.splice(widthsToUseCopy.indexOf(biggestCell), 1);
         
-        for (var tempWidth in widthsToUseCopy) {
-          tempCellWidth += widthsToUseCopy[tempWidth];
+        for (var widthToUse in widthsToUse) {
+          widthOfAllCells += widthsToUse[widthToUse];
+          console.log(widthsToUse[widthToUse], widthOfAllCells)
         }
 
-        newCell = window.innerWidth - tempCellWidth;
-        widthsToUseCopy.splice(widthsToUse.indexOf(biggestCell), 0, newCell);
-        angular.copy(widthsToUseCopy, widthsToUse);        
+        newCell = biggestCell + window.innerWidth - widthOfAllCells;
+        widthsToUse[widthsToUse.indexOf(biggestCell)] = newCell;
 
         for (widthToUse in widthsToUse) {
           for (row in rows) {
