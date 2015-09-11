@@ -112,6 +112,18 @@ var ionicTableModule = angular.module('ionic-table', [])
         resizeWithModal = 0;
         modalShown = false;
       });
+      scope.$on('popover.shown', function () {
+        modalShown = true;
+      });
+      scope.$on('popover.hidden', function () {
+        resizeWithModal = 0;
+        modalShown = false;
+      });
+      scope.$on('popover.removed', function () {
+        resizeWithModal = 0;
+        modalShown = false;
+      });
+      
       scope.$on('resizeTable', function () {
         onResize();
       });
