@@ -91,6 +91,16 @@ var ionicTableModule = angular.module('ionic-table', [])
 
 })
 
+.run(function ($rootScope) {
+  // Keyboard events
+  window.addEventListener('native.keyboardshow', function () {
+    $rootScope.$broadcast('keyboard:show');
+  });
+  window.addEventListener('native.keyboardhide', function () {
+    $rootScope.$broadcast('keyboard:hide');
+  });
+})
+
 .directive('ionTable', ['$timeout', function ($timeout) {
   return {
     restrict: 'A',
@@ -98,30 +108,39 @@ var ionicTableModule = angular.module('ionic-table', [])
     transclude: true,
     link: function (scope, element, attr) {
 
-      var modalShown,
-          resizeWithModal = 0;
+      var exceptionShown,
+          resizeWithException = 0;
 
       scope.$on('modal.shown', function () {
-        modalShown = true;
+        exceptionShown = true;
       });
       scope.$on('modal.hidden', function () {
-        resizeWithModal = 0;
-        modalShown = false;
+        resizeWithException = 0;
+        exceptionShown = false;
       });
       scope.$on('modal.removed', function () {
-        resizeWithModal = 0;
-        modalShown = false;
+        resizeWithException = 0;
+        exceptionShown = false;
       });
       scope.$on('popover.shown', function () {
-        modalShown = true;
+        exceptionShown = true;
       });
       scope.$on('popover.hidden', function () {
-        resizeWithModal = 0;
-        modalShown = false;
+        resizeWithException = 0;
+        exceptionShown = false;
       });
       scope.$on('popover.removed', function () {
-        resizeWithModal = 0;
-        modalShown = false;
+        resizeWithException = 0;
+        exceptionShown = false;
+      });
+      scope.$on('keyboard:show', function () {
+        exceptionShown = true;
+        console.log('keyboard show');
+      });
+      scope.$on('keyboard:hide', function () {
+        resizeWithException = 0;
+        exceptionShown = false;
+        console.log('keyboard hide');
       });
       
       scope.$on('resizeTable', function () {
@@ -129,14 +148,14 @@ var ionicTableModule = angular.module('ionic-table', [])
       });
 
       $(window).smartresize(function () {
-        if (!modalShown) {
+        if (!exceptionShown) {
           onResize();
         }
       });
       $(window).smartresize(function () {
-        if (modalShown) {
-          resizeWithModal++;
-          if (resizeWithModal > 1) {
+        if (exceptionShown) {
+          resizeWithException++;
+          if (resizeWithException > 1) {
             onResize();
           }
         }
@@ -247,10 +266,10 @@ var ionicTableModule = angular.module('ionic-table', [])
           for (row in rows) {
             if (rows[row].length > 1) {
               rows[row][widthToUse]
-              .animate({width: widthsToUse[widthToUse] + 'px'}, 275);
+              .innerWidth(widthsToUse[widthToUse]);
             } else {
               rows[row][0].css('max-width', 'none');
-              rows[row][0].animate({width: window.innerWidth + 'px'}, 275);
+              rows[row][0].innerWidth(window.innerWidth);
             }
           }
         }
@@ -260,7 +279,7 @@ var ionicTableModule = angular.module('ionic-table', [])
             styleAttr = $(selectElements[selectElement]).parent().attr('style');
             styleAttr = parseInt(styleAttr.split(' ')[1].split('p')[0]);
             $(selectElements[selectElement])
-            .animate({width: styleAttr - 1 + 'px'}, 275);
+            .innerWidth(styleAttr - 1);
           }
         }
 
