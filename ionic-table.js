@@ -54,11 +54,12 @@ var ionicTableModule = angular.module('ionic-table', [])
     'center;color:#000}.table ul{display:-webkit-box;display:flex}' +
     '.table ul li{display:inline-block;padding:16px;' +
     'white-space:normal}.table li:not(:last-child){border-right:1px ' +
-    'solid #ddd}.table-row{padding:0}.table-select{overflow:hidden}' +
-    '.table-select select{max-width:none;padding-right:35px}' +
-    '.icon-only{position:relative;text-align:center}.icon-only i,' +
+    'solid #ddd}.table-row{padding:0}.table-select, .table-input{overflow:' +
+    'hidden}.table-select select, .table-input input{max-width:none;padding' +
+    '-right:35px}.icon-only{position:relative;text-align:center}.icon-only i,' +
     '.icon-only span{font-size:32px;width:100%;position:absolute;' +
-    'top:calc(50% - 14px);left:0}</style>')
+    'top:calc(50% - 14px);left:0}.table-input input{text-align:center ' +
+    '!important}</style>')
   .appendTo('head');
 
   (function($,sr){
@@ -112,6 +113,7 @@ var ionicTableModule = angular.module('ionic-table', [])
       var exceptionShown,
           rows = [],
           selectElements = element.find('select'),
+          inputElements = element.find('input'),
           resizeWithException = 0;
 
       scope.$on('modal.shown', function () {
@@ -280,6 +282,15 @@ var ionicTableModule = angular.module('ionic-table', [])
             styleAttr = $(selectElements[selectElement]).parent().attr('style');
             styleAttr = parseInt(styleAttr.split(' ')[1].split('p')[0]);
             $(selectElements[selectElement])
+            .innerWidth(styleAttr - 1);
+          }
+        }
+
+        for (var inputElement in inputElements) {
+          if (!isNaN(parseInt(inputElement))) {
+            styleAttr = $(inputElements[inputElement]).parent().attr('style');
+            styleAttr = parseInt(styleAttr.split(' ')[1].split('p')[0]);
+            $(inputElements[inputElement])
             .innerWidth(styleAttr - 1);
           }
         }
