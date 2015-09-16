@@ -101,14 +101,17 @@ var ionicTableModule = angular.module('ionic-table', [])
   });
 })
 
-.directive('ionTable', ['$timeout', function ($timeout) {
+.directive('ionTable', ['$timeout', '$ionicScrollDelegate',
+  function ($timeout, $ionicScrollDelegate) {
   return {
     restrict: 'A',
-    template: '<div class="table" ng-transclude="" ng-if="!reset">',
+    template: '<div class="table" ng-transclude="">',
     transclude: true,
     link: function (scope, element, attr) {
 
       var exceptionShown,
+          rows = [],
+          selectElements = element.find('select'),
           resizeWithException = 0;
 
       scope.$on('modal.shown', function () {
@@ -144,19 +147,19 @@ var ionicTableModule = angular.module('ionic-table', [])
       });
       
       scope.$on('resizeTable', function () {
-        onResize();
+        resetWidth();
       });
 
       $(window).smartresize(function () {
         if (!exceptionShown) {
-          onResize();
+          resetWidth();
         }
       });
       $(window).smartresize(function () {
         if (exceptionShown) {
           resizeWithException++;
           if (resizeWithException > 1) {
-            onResize();
+            resetWidth();
           }
         }
       });
@@ -166,11 +169,9 @@ var ionicTableModule = angular.module('ionic-table', [])
       function setCellWidth() {
         var div = angular.element(angular.element(angular
           .element(element.children()[0]).children()[0]).children()[0]),
-            selectElements = element.find('select'),
             uls = [],
             cellContainers = [],
             cellWidths = [],
-            rows = [],
             widestCell = {
               width: null,
               index: null
@@ -283,14 +284,19 @@ var ionicTableModule = angular.module('ionic-table', [])
           }
         }
 
+        $ionicScrollDelegate.resize();
+
       }
 
-      function onResize() {
-        $timeout(function(){scope.reset = true;});
-        $timeout(function () {
-          scope.reset = false;
-          $timeout(setCellWidth);
-        }, 100);
+      function resetWidth() {
+        for (var row in rows) {
+          if (rows[row].length > 1) {
+            for (var cell in rows[row]) {
+              rows[row][cell].innerWidth('auto');
+            }
+          }
+        }
+        setCellWidth();
       }
 
     }
