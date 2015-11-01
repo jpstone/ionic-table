@@ -267,7 +267,7 @@ var ionicTableModule = angular.module('ionic-table', [])
 
         for (widthToUse in widthsToUse) {
           for (row in rows) {
-            if (rows[row].length > 1) {
+        	if (rows[row].length>(widthToUse+1)&&typeof(rows[row][widthToUse])!="undefined") {
               rows[row][widthToUse]
               .innerWidth(widthsToUse[widthToUse]);
             } else {
@@ -280,18 +280,22 @@ var ionicTableModule = angular.module('ionic-table', [])
         for (var selectElement in selectElements) {
           if (!isNaN(parseInt(selectElement))) {
             styleAttr = $(selectElements[selectElement]).parent().attr('style');
-            styleAttr = parseInt(styleAttr.split(' ')[1].split('p')[0]);
-            $(selectElements[selectElement])
-            .innerWidth(styleAttr - 1);
+            if(typeof(styleAttr)!="undefined"){
+                styleAttr = parseInt(styleAttr.split(' ')[1].split('p')[0]);
+                $(selectElements[selectElement])
+                .innerWidth(styleAttr - 1);
+            }
           }
         }
 
         for (var inputElement in inputElements) {
           if (!isNaN(parseInt(inputElement))) {
             styleAttr = $(inputElements[inputElement]).parent().attr('style');
-            styleAttr = parseInt(styleAttr.split(' ')[1].split('p')[0]);
-            $(inputElements[inputElement])
-            .innerWidth(styleAttr - 1);
+            if(typeof(styleAttr)!="undefined"){
+                styleAttr = parseInt(styleAttr.split(' ')[1].split('p')[0]);
+                $(inputElements[inputElement])
+                .innerWidth(styleAttr - 1);
+            }
           }
         }
 
